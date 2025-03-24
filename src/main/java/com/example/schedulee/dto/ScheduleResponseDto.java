@@ -20,4 +20,15 @@ public class ScheduleResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private LocalDateTime scheduleDate;
+
+    public ScheduleResponseDto(Schedule schedule) {
+        this.scheduleId = schedule.getScheduleId();
+        this.todo = schedule.getTodo();
+        this.writer = schedule.getWriter();
+        this.createdAt = schedule.getCreatedAt();
+        this.modifiedAt = schedule.getModifiedAt();
+        this.scheduleDate = schedule.getScheduleDate();
+
+    }
+
 }

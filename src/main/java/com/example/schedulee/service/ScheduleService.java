@@ -1,9 +1,6 @@
 package com.example.schedulee.service;
 
-import com.example.schedulee.dto.ScheduleAllDto;
-import com.example.schedulee.dto.ScheduleRequestAllDto;
-import com.example.schedulee.dto.ScheduleRequestDto;
-import com.example.schedulee.dto.ScheduleResponseDto;
+import com.example.schedulee.dto.*;
 import com.example.schedulee.entitty.Schedule;
 
 import java.util.List;
@@ -15,4 +12,8 @@ public interface ScheduleService {
     List<ScheduleAllDto> searchAll(ScheduleRequestAllDto sc);
 
     ScheduleResponseDto searchSchedule(Long id);
+
+    ScheduleResponseDto editInfo(ScheduleEditRequestDto dto, Long id);
+
+    void deleteSchedule(Long id);
 }

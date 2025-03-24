@@ -8,7 +8,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 public class ScheduleEditRequestDto {
-    String 
     String todo;
     String writer;
+    String password; // 수정을 하기 위해 필요한 비밀번호
 }

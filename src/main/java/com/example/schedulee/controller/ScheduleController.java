@@ -1,9 +1,6 @@
 package com.example.schedulee.controller;
 
-import com.example.schedulee.dto.ScheduleAllDto;
-import com.example.schedulee.dto.ScheduleRequestAllDto;
-import com.example.schedulee.dto.ScheduleRequestDto;
-import com.example.schedulee.dto.ScheduleResponseDto;
+import com.example.schedulee.dto.*;
 import com.example.schedulee.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +18,7 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
-    // 상품 등록 메서드
+    // 상품 등록
     @PostMapping // 상품 등록 컨트롤러
     public ResponseEntity<ScheduleResponseDto> postingSchedule(
             @RequestBody ScheduleRequestDto dto
@@ -31,23 +28,39 @@ public class ScheduleController {
         return new ResponseEntity<>(postedSchedule, HttpStatus.CREATED);
     }
 
-    // 수정일과 작성자가 일치하는 스케쥴 응답해주는 메서드
+    // 수정일과 작성자가 일치하는 스케줄 응답
     @GetMapping ("/all")
-    ResponseEntity<List<ScheduleAllDto>> getAllSchedule(@RequestBody
+    public ResponseEntity<List<ScheduleAllDto>> getAllSchedule(@RequestBody
                                                                      ScheduleRequestAllDto sc){
         List <ScheduleAllDto> getAllInfo = scheduleService.searchAll(sc);
 
         return new ResponseEntity<>(getAllInfo,HttpStatus.OK);
     }
 
+    // 특정 스케줄 조회
     @GetMapping("/{id}")
-    ResponseEntity<ScheduleResponseDto> getSchedule(@PathVariable Long id){
+    public ResponseEntity<ScheduleResponseDto> getSchedule(@PathVariable Long id){
 
         ScheduleResponseDto sc = scheduleService.searchSchedule(id);
 
         return new ResponseEntity<>(sc, HttpStatus.OK);
     }
 
+    // 스케줄 수정
     @PatchMapping("/{id}")
-    ResponseEntity<ScheduleResponseDto> editInfo(@PathVariable Long id)
+    public ResponseEntity<ScheduleResponseDto> editInfo(@RequestBody ScheduleEditRequestDto dto,
+    @PathVariable Long id){
+
+        ScheduleResponseDto editedSchedule = scheduleService.editInfo(dto,id);
+        return new ResponseEntity<>(editedSchedule, HttpStatus.OK);
+    }
+
+    // 스케줄 삭제
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteSchedule(@PathVariable Long id){
+
+        scheduleService.deleteSchedule(id);
+
+        return ResponseEntity.ok("선택한 스케줄이 삭제되었습니다.");
+    }
 }
