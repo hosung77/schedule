@@ -1,6 +1,7 @@
 package com.example.schedulee.repository;
 
 import com.example.schedulee.dto.ScheduleAllDto;
+import com.example.schedulee.dto.ScheduleEditRequestDto;
 import com.example.schedulee.dto.ScheduleRequestAllDto;
 import com.example.schedulee.dto.ScheduleResponseDto;
 import com.example.schedulee.entitty.Schedule;
@@ -65,6 +66,25 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository{
     }
 
 
+
+    @Override
+    public void updateSchedule(ScheduleEditRequestDto dto, Long id) {
+        LocalDateTime now = LocalDateTime.now(); // 현재 시간
+        jdbcTemplate.update("update schedule set todo = ?, writer = ?, modified_at = ? where schedule_id= ?", dto.getTodo(),dto.getWriter(),now,id);
+    }
+
+    @Override
+    public Schedule findByScheduleId(Long id) {
+       return jdbcTemplate.queryForObject("select * from schedule where schedule_id = ?",scheduleRowMapper() ,id);
+    }
+
+
+    @Override
+    public void deleteById(Long id) {
+        jdbcTemplate.update("delete from schedule where schedule_id = ?", id);
+    }
+
+
     private RowMapper<ScheduleAllDto> scheduleAllDtoRowMapper(){
 
         return new RowMapper<ScheduleAllDto>() {
@@ -82,6 +102,23 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository{
         };
     }
 
+    private RowMapper<Schedule> scheduleRowMapper(){
+
+        return new RowMapper<Schedule>() {
+            @Override
+            public Schedule mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new Schedule(
+                        rs.getLong("schedule_id"),
+                        rs.getString("todo"),
+                        rs.getString("writer"),
+                        rs.getString("password"),
+                        rs.getObject("created_at", LocalDateTime.class),
+                        rs.getObject("modified_at", LocalDateTime.class),
+                        rs.getObject("schedule_date", LocalDateTime.class)
+                );
+            }
+        };
+    }
     private RowMapper<ScheduleResponseDto> scheduleResponseDtoRowMapper(){
 
         return new RowMapper<ScheduleResponseDto>() {
