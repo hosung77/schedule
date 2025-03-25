@@ -2,6 +2,7 @@ package com.example.schedulee.controller;
 
 import com.example.schedulee.dto.*;
 import com.example.schedulee.service.ScheduleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public class ScheduleController {
     // 상품 등록
     @PostMapping // 상품 등록 컨트롤러
     public ResponseEntity<ScheduleResponseDto> postingSchedule(
-            @RequestBody ScheduleRequestDto dto
+            @Valid @RequestBody ScheduleRequestDto dto
             ){
         ScheduleResponseDto postedSchedule = scheduleService.postSchedule(dto);
 
@@ -54,7 +55,7 @@ public class ScheduleController {
 
     // 스케줄 수정
     @PatchMapping("/{id}")
-    public ResponseEntity<SearchedScheduleDto> editInfo(@RequestBody ScheduleEditRequestDto dto,
+    public ResponseEntity<SearchedScheduleDto> editInfo(@Valid @RequestBody ScheduleEditRequestDto dto,
     @PathVariable Long id){
 
         SearchedScheduleDto editedSchedule = scheduleService.editInfo(dto,id);
@@ -63,7 +64,7 @@ public class ScheduleController {
 
     // 스케줄 삭제
     @DeleteMapping()
-    public ResponseEntity<String> deleteSchedule(@RequestBody ScheduleDeleteRequestDto dto){
+    public ResponseEntity<String> deleteSchedule(@Valid @RequestBody ScheduleDeleteRequestDto dto){
 
         scheduleService.deleteSchedule(dto);
 
