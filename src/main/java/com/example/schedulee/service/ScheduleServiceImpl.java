@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -28,10 +29,33 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<ScheduleAllDto> searchAll(ScheduleRequestAllDto sc) {
+    public Paging<ScheduleAllDto> searchAllWithPaging(ScheduleRequestAllDto sc, int page, int size) {
 
         List<ScheduleAllDto> searchedResult = scheduleRepository.findByNameOrCreatedAt(sc);
-        return searchedResult;
+
+        // 전체 데이터 개수
+        long totalElements = searchedResult.size();
+
+        // 페이지에 맞는 데이터를 추출
+        // page 번호와 size (한 페이지의 항목 수)를 이용하여 데이터의 시작 인덱스를 계산합니다. 예를 들어, page=1, size=10이면, 첫 번째 페이지의 시작 인덱스는 0
+        int fromIndex = (page - 1) * size;
+
+        // fromIndex에서 한 페이지의 크기인 size만큼 데이터를 추출할 끝 인덱스를 계산
+        // Math.min을 사용한 이유는 리스트의 사이즈가 fromIndex + size의 값보다 클수도 있기 때문이다.
+        int toIndex = Math.min(fromIndex + size, searchedResult.size());
+
+        // fromIndex가 리스트의 크기보다 크면 값을 초과하기 때문에 빈배열을 반환해주고 그게 아니라면
+        // fromIndex와 toIndex 사이의 값을 반환해준다.
+        List<ScheduleAllDto> pagedContent = (fromIndex >= searchedResult.size()) ?
+                Collections.emptyList() : searchedResult.subList(fromIndex, toIndex);
+
+        // 전체 페이지 개수 계산
+        // Math.ceil은 소수점을 반올림해서 올려주는 함수이다. 12/10을 했을 경우 1.2 이지만 페이지 갯수는 총 2페이지이다.
+        // ceil을 사용하여 이 점을 충족해준다.
+        int totalPages = (int) Math.ceil((double) totalElements / size);
+
+        // Paging 객체 반환
+        return new Paging<>(pagedContent, page, size, totalElements, totalPages);
 
     }
 

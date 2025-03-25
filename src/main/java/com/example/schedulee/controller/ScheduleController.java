@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -29,12 +30,17 @@ public class ScheduleController {
     }
 
     // 수정일과 작성자가 일치하는 스케줄 응답
-    @GetMapping ("/all")
-    public ResponseEntity<List<ScheduleAllDto>> getAllSchedule(@RequestBody
-                                                                     ScheduleRequestAllDto sc){
-        List <ScheduleAllDto> getAllInfo = scheduleService.searchAll(sc);
+    @GetMapping("/all")
+    public ResponseEntity<Paging<ScheduleAllDto>> getAllSchedule(
+            @RequestParam String writerName,
+            @RequestParam LocalDateTime modifiedAt,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
-        return new ResponseEntity<>(getAllInfo,HttpStatus.OK);
+        ScheduleRequestAllDto requestDto = new ScheduleRequestAllDto(writerName, modifiedAt);
+        Paging<ScheduleAllDto> result = scheduleService.searchAllWithPaging(requestDto, page, size);
+
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}")
