@@ -12,5 +12,5 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ScheduleRequestAllDto {
     private String writerName;
-    private LocalDate modifiedAt;
+    private LocalDateTime modifiedAt;
 }
