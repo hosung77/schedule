@@ -1,9 +1,6 @@
 package com.example.schedulee.repository;
 
-import com.example.schedulee.dto.ScheduleAllDto;
-import com.example.schedulee.dto.ScheduleEditRequestDto;
-import com.example.schedulee.dto.ScheduleRequestAllDto;
-import com.example.schedulee.dto.ScheduleResponseDto;
+import com.example.schedulee.dto.*;
 import com.example.schedulee.entitty.Schedule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -36,7 +33,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository{
 
         Map<String, Object> params = new HashMap<>();
         params.put("todo", sc.getTodo());
-        params.put("writer", sc.getWriter());
+        params.put("writer_id", sc.getWriterId());
         params.put("password", sc.getPassword());
         params.put("scheduleDate", sc.getScheduleDate());
         params.put("created_at", sc.getCreatedAt());
@@ -48,7 +45,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository{
         return new ScheduleResponseDto(
                 key.longValue(),
                 sc.getTodo(),
-                sc.getWriter(),
+                sc.getWriterId(),
                 sc.getCreatedAt(),
                 sc.getModifiedAt(),
                 sc.getScheduleDate()
@@ -57,20 +54,40 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository{
 
     @Override
     public List<ScheduleAllDto> findByNameOrCreatedAt(ScheduleRequestAllDto sc) {
-        return jdbcTemplate.query("select * from schedule where Date(modified_at) = ? or writer = ? order by modified_at desc", scheduleAllDtoRowMapper(), sc.getModifiedAt(), sc.getWriter());
+        return jdbcTemplate.query(
+                "SELECT s.schedule_id, s.todo, s.schedule_date, s.created_at, s.modified_at, w.writer_id, w.writer_name " +
+                        "FROM schedule s " +
+                        "JOIN writer w ON s.writer_id = w.writer_id " +
+                        "WHERE DATE(s.modified_at) = ? OR w.writer_name = ? " +
+                        "ORDER BY s.modified_at DESC",
+                scheduleAllDtoRowMapper(),
+                sc.getModifiedAt(),
+                sc.getWriterName()
+        );
     }
 
-    @Override
-    public ScheduleResponseDto findById(Long id) {
-        return jdbcTemplate.queryForObject("select * from schedule where schedule_id = ?", scheduleResponseDtoRowMapper(),id);
-    }
 
 
 
     @Override
     public void updateSchedule(ScheduleEditRequestDto dto, Long id) {
         LocalDateTime now = LocalDateTime.now(); // 현재 시간
-        jdbcTemplate.update("update schedule set todo = ?, writer = ?, modified_at = ? where schedule_id= ?", dto.getTodo(),dto.getWriter(),now,id);
+
+        // 1. 작성자 이름을 writer 테이블에서 업데이트
+        jdbcTemplate.update(
+                "UPDATE writer SET writer_name = ?, writer_modified_at = ? WHERE writer_id = (SELECT writer_id FROM schedule WHERE schedule_id = ?)",
+                dto.getWriterName(),
+                now,
+                id
+        );
+
+        // 2. schedule 테이블에서 todo와 modified_at 업데이트
+        jdbcTemplate.update(
+                "UPDATE schedule SET todo = ?, modified_at = ? WHERE schedule_id = ?",
+                dto.getTodo(),
+                now,
+                id
+        );
     }
 
     @Override
@@ -79,10 +96,36 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository{
     }
 
 
+
     @Override
     public void deleteById(Long id) {
         jdbcTemplate.update("delete from schedule where schedule_id = ?", id);
     }
+
+    @Override
+    public List<SearchedScheduleDto> findScheduleByID(Long id) {
+        return jdbcTemplate.query(
+                "select s.schedule_id, w.writer_id, w.writer_name, w.writer_email,s.todo,s.schedule_date,s.created_at,s.modified_at " +
+                        "from schedule s " +
+                        "JOIN writer w ON s.writer_id = w.writer_id " +
+                        "where w.writer_id = ? ", searchedScheduleDtoRowMapper(), id
+
+        );
+    }
+
+
+    @Override
+    public SearchedScheduleDto findById(Long id) {
+        return jdbcTemplate.queryForObject(
+                "SELECT s.schedule_id, w.writer_id, w.writer_name, w.writer_email, s.todo, s.schedule_date, s.created_at, s.modified_at " +
+                        "FROM schedule s " +
+                        "JOIN writer w ON s.writer_id = w.writer_id " +
+                        "WHERE s.schedule_id = ?",
+                searchedScheduleDtoRowMapper(),
+                id
+        );
+    }
+
 
 
     private RowMapper<ScheduleAllDto> scheduleAllDtoRowMapper(){
@@ -93,7 +136,8 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository{
                 return new ScheduleAllDto(
                         rs.getLong("schedule_id"),
                         rs.getString("todo"),
-                        rs.getString("writer"),
+                        rs.getString("writer_id"),
+                        rs.getString("writer_name"),
                         rs.getObject("created_at", LocalDateTime.class),
                         rs.getObject("modified_at", LocalDateTime.class),
                         rs.getObject("schedule_date", LocalDateTime.class)
@@ -110,7 +154,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository{
                 return new Schedule(
                         rs.getLong("schedule_id"),
                         rs.getString("todo"),
-                        rs.getString("writer"),
+                        rs.getString("writer_id"),
                         rs.getString("password"),
                         rs.getObject("created_at", LocalDateTime.class),
                         rs.getObject("modified_at", LocalDateTime.class),
@@ -127,7 +171,25 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository{
                 return new ScheduleResponseDto(
                         rs.getLong("schedule_id"),
                         rs.getString("todo"),
-                        rs.getString("writer"),
+                        rs.getString("writer_id"),
+                        rs.getObject("created_at", LocalDateTime.class),
+                        rs.getObject("modified_at", LocalDateTime.class),
+                        rs.getObject("schedule_date", LocalDateTime.class)
+                );
+            }
+        };
+    }
+
+    private RowMapper<SearchedScheduleDto> searchedScheduleDtoRowMapper(){
+        return new RowMapper<SearchedScheduleDto>() {
+            @Override
+            public SearchedScheduleDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new SearchedScheduleDto(
+                        rs.getLong("schedule_id"),
+                        rs.getLong("writer_id"),
+                        rs.getString("writer_name"),
+                        rs.getString("writer_email"),
+                        rs.getString("todo"),
                         rs.getObject("created_at", LocalDateTime.class),
                         rs.getObject("modified_at", LocalDateTime.class),
                         rs.getObject("schedule_date", LocalDateTime.class)

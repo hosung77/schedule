@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class ScheduleResponseDto {
     private Long scheduleId;
     private String todo;
-    private String writer;
+    private String writerId;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private LocalDateTime scheduleDate;
@@ -24,7 +24,7 @@ public class ScheduleResponseDto {
     public ScheduleResponseDto(Schedule schedule) {
         this.scheduleId = schedule.getScheduleId();
         this.todo = schedule.getTodo();
-        this.writer = schedule.getWriter();
+        this.writerId = schedule.getWriterId();
         this.createdAt = schedule.getCreatedAt();
         this.modifiedAt = schedule.getModifiedAt();
         this.scheduleDate = schedule.getScheduleDate();

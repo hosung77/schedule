@@ -2,18 +2,19 @@ package com.example.schedulee.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Getter
 @AllArgsConstructor
+@Getter
+@NoArgsConstructor
 @Setter
-public class ScheduleRequestDto {
-    private String todo;
-    private String writerId;
+public class WriterResponseDto {
+    private Long writerId;
+    private String writerEmail;
+    private String name;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private String password;
-    private LocalDateTime scheduleDate;
 }

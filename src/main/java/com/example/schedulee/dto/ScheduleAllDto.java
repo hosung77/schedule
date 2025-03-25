@@ -12,7 +12,9 @@ public class ScheduleAllDto {
 
     private String todo;
 
-    private String writer;
+    private String writerId;
+
+    private String writerName;
 
     private LocalDateTime scheduleDate;
 
