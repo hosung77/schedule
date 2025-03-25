@@ -3,6 +3,7 @@ package com.example.schedulee.repository;
 import com.example.schedulee.dto.*;
 import com.example.schedulee.entitty.Schedule;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
@@ -91,8 +93,17 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository{
     }
 
     @Override
-    public Schedule findByScheduleId(Long id) {
-       return jdbcTemplate.queryForObject("select * from schedule where schedule_id = ?",scheduleRowMapper() ,id);
+    public Optional<Schedule> findByScheduleId(Long id) {
+        try {
+            Schedule schedule = jdbcTemplate.queryForObject(
+                    "SELECT * FROM schedule WHERE schedule_id = ?",
+                    scheduleRowMapper(),
+                    id
+            );
+            return Optional.ofNullable(schedule);  // 결과가 있는 경우 Optional로 감싸서 반환
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();  // 결과가 없을 경우 Optional.empty() 반환
+        }
     }
 
 
@@ -103,14 +114,18 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository{
     }
 
     @Override
-    public List<SearchedScheduleDto> findScheduleByID(Long id) {
-        return jdbcTemplate.query(
-                "select s.schedule_id, w.writer_id, w.writer_name, w.writer_email,s.todo,s.schedule_date,s.created_at,s.modified_at " +
-                        "from schedule s " +
+    public Optional<List<SearchedScheduleDto>> findScheduleByID(Long id) {
+        List<SearchedScheduleDto> result = jdbcTemplate.query(
+                "SELECT s.schedule_id, w.writer_id, w.writer_name, w.writer_email, " +
+                        "s.todo, s.schedule_date, s.created_at, s.modified_at " +
+                        "FROM schedule s " +
                         "JOIN writer w ON s.writer_id = w.writer_id " +
-                        "where w.writer_id = ? ", searchedScheduleDtoRowMapper(), id
-
+                        "WHERE w.writer_id = ?",
+                searchedScheduleDtoRowMapper(),
+                id
         );
+
+        return result.isEmpty() ? Optional.empty() : Optional.of(result);
     }
 
 

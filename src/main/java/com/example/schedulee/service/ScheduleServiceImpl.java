@@ -2,6 +2,8 @@ package com.example.schedulee.service;
 
 import com.example.schedulee.dto.*;
 import com.example.schedulee.entitty.Schedule;
+import com.example.schedulee.exception.CustomException;
+import com.example.schedulee.exception.ErrorCode;
 import com.example.schedulee.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -62,10 +65,14 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public SearchedScheduleDto editInfo(ScheduleEditRequestDto dto, Long id) {
+        if (id == null) {
+            throw new CustomException(ErrorCode.INVALID_ID);
+        }
 
         // 수정 요청을 받은 DTO의 비밀번호와 DB에 저장된 비밀번호를 비교하기 위해,
         // PathVariable로 전달된 id를 사용하여 DB에서 해당 일정 정보를 조회하고 임시 변수에 할당
-        Schedule schedule = scheduleRepository.findByScheduleId(id);
+        Schedule schedule = scheduleRepository.findByScheduleId(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
 
         // 조건문을 통해 비밀번호 비교 후 같으면 수정 다르면 예외를 발생시킨다.
         if (schedule.getPassword().equals(dto.getPassword())) {
@@ -77,30 +84,34 @@ public class ScheduleServiceImpl implements ScheduleService {
             return updatedSchedule;
         } else {
             // 비밀번호가 다르면 사용자에게 알림 처리
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new CustomException(ErrorCode.PASSWORD_NOT_MATCH);
         }
     }
 
     @Override
     public void deleteSchedule(ScheduleDeleteRequestDto dto) {
+        if (dto.getId() == null) {
+            throw new CustomException(ErrorCode.INVALID_ID);
+        }
         // 삭제 요청을 받은 DTO의 비밀번호와 DB에 저장된 비밀번호를 비교하기 위해,
         // PathVariable로 전달된 Dto에 id를 사용하여 DB에서 해당 일정 정보를 조회하고 임시 변수에 할당
-        Schedule schedule = scheduleRepository.findByScheduleId(dto.getId());
+        Schedule schedule = scheduleRepository.findByScheduleId(dto.getId())
+                .orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
 
         // 조건문을 통해 비밀번호 비교 후 같으면 수정 다르면 예외를 발생시킨다.
         if (schedule.getPassword().equals(dto.getPassword())) {
             scheduleRepository.deleteById(dto.getId());
         } else {
             // 비밀번호가 다르면 사용자에게 알림 처리
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new CustomException(ErrorCode.PASSWORD_NOT_MATCH);
         }
     }
 
     @Override
     public List<SearchedScheduleDto> searchSchedule(Long id) {
-        List<SearchedScheduleDto> result = scheduleRepository.findScheduleByID(id);
+        List<SearchedScheduleDto> result = scheduleRepository.findScheduleByID(id)
+                .orElseThrow(()->new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
         return result;
     }
-
 
 }

@@ -62,7 +62,7 @@ public class ScheduleController {
     }
 
     // 스케줄 삭제
-    @DeleteMapping("/{id}")
+    @DeleteMapping()
     public ResponseEntity<String> deleteSchedule(@RequestBody ScheduleDeleteRequestDto dto){
 
         scheduleService.deleteSchedule(dto);

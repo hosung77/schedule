@@ -5,6 +5,7 @@ import com.example.schedulee.entitty.Schedule;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ScheduleRepository {
@@ -15,11 +16,11 @@ public interface ScheduleRepository {
 
     void updateSchedule(ScheduleEditRequestDto dto, Long id);
 
-    Schedule findByScheduleId(Long id);
+    Optional<Schedule> findByScheduleId(Long id);
 
     void deleteById(Long id);
 
-    List<SearchedScheduleDto> findScheduleByID(Long id);
+    Optional<List<SearchedScheduleDto>> findScheduleByID(Long id);
 
     SearchedScheduleDto findById(Long id);
 
