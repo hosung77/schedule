@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 public class ScheduleEditRequestDto {
     String todo;
-    String writer;
+    String writerName;
     String password; // 수정을 하기 위해 필요한 비밀번호
 }

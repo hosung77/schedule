@@ -7,13 +7,15 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Getter
-@AllArgsConstructor
 @Setter
-public class ScheduleRequestDto {
+@AllArgsConstructor
+public class SearchedScheduleDto {
+    private Long scheduleId;
+    private Long writerId;
+    private String writerName;
+    private String writerEmail;
     private String todo;
-    private String writerId;
+    private LocalDateTime scheduleDate;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private String password;
-    private LocalDateTime scheduleDate;
 }

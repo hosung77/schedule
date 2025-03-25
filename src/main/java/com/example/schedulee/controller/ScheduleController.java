@@ -37,29 +37,29 @@ public class ScheduleController {
         return new ResponseEntity<>(getAllInfo,HttpStatus.OK);
     }
 
-    // 특정 스케줄 조회
     @GetMapping("/{id}")
-    public ResponseEntity<ScheduleResponseDto> getSchedule(@PathVariable Long id){
-
-        ScheduleResponseDto sc = scheduleService.searchSchedule(id);
-
-        return new ResponseEntity<>(sc, HttpStatus.OK);
+    public ResponseEntity<List<SearchedScheduleDto>> searchSchedule(
+            @PathVariable Long id
+    ){
+        System.out.println("Received ID: " + id);  // ID 값이 제대로 전달 되는지 확인
+        List<SearchedScheduleDto> dto = scheduleService.searchSchedule(id);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     // 스케줄 수정
     @PatchMapping("/{id}")
-    public ResponseEntity<ScheduleResponseDto> editInfo(@RequestBody ScheduleEditRequestDto dto,
+    public ResponseEntity<SearchedScheduleDto> editInfo(@RequestBody ScheduleEditRequestDto dto,
     @PathVariable Long id){
 
-        ScheduleResponseDto editedSchedule = scheduleService.editInfo(dto,id);
+        SearchedScheduleDto editedSchedule = scheduleService.editInfo(dto,id);
         return new ResponseEntity<>(editedSchedule, HttpStatus.OK);
     }
 
     // 스케줄 삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteSchedule(@PathVariable Long id){
+    public ResponseEntity<String> deleteSchedule(@RequestBody ScheduleDeleteRequestDto dto){
 
-        scheduleService.deleteSchedule(id);
+        scheduleService.deleteSchedule(dto);
 
         return ResponseEntity.ok("선택한 스케줄이 삭제되었습니다.");
     }

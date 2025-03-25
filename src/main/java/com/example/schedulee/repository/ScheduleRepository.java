@@ -1,9 +1,6 @@
 package com.example.schedulee.repository;
 
-import com.example.schedulee.dto.ScheduleAllDto;
-import com.example.schedulee.dto.ScheduleEditRequestDto;
-import com.example.schedulee.dto.ScheduleRequestAllDto;
-import com.example.schedulee.dto.ScheduleResponseDto;
+import com.example.schedulee.dto.*;
 import com.example.schedulee.entitty.Schedule;
 import org.springframework.stereotype.Repository;
 
@@ -16,11 +13,14 @@ public interface ScheduleRepository {
 
     List<ScheduleAllDto> findByNameOrCreatedAt(ScheduleRequestAllDto sc);
 
-    ScheduleResponseDto findById(Long id);
-
     void updateSchedule(ScheduleEditRequestDto dto, Long id);
 
     Schedule findByScheduleId(Long id);
 
     void deleteById(Long id);
+
+    List<SearchedScheduleDto> findScheduleByID(Long id);
+
+    SearchedScheduleDto findById(Long id);
+
 }
