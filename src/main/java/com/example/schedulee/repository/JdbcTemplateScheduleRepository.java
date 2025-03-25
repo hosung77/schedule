@@ -69,25 +69,22 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository{
     }
 
 
-
-
-    @Override
-    public void updateSchedule(ScheduleEditRequestDto dto, Long id) {
-        LocalDateTime now = LocalDateTime.now(); // 현재 시간
-
-        // 1. 작성자 이름을 writer 테이블에서 업데이트
-        jdbcTemplate.update(
-                "UPDATE writer SET writer_name = ?, writer_modified_at = ? WHERE writer_id = (SELECT writer_id FROM schedule WHERE schedule_id = ?)",
-                dto.getWriterName(),
-                now,
-                id
-        );
-
-        // 2. schedule 테이블에서 todo와 modified_at 업데이트
+    // schedule 테이블에서 todo와 modified_at 업데이트
+    public void updateScheduleTodo(String todo, Long id) {
         jdbcTemplate.update(
                 "UPDATE schedule SET todo = ?, modified_at = ? WHERE schedule_id = ?",
-                dto.getTodo(),
-                now,
+                todo,
+                LocalDateTime.now(), // 수정된 시간
+                id
+        );
+    }
+
+    // writer 테이블에서 writer_name과 writer_modified_at 업데이트
+    public void updateWriterName(String writerName, Long id) {
+        jdbcTemplate.update(
+                "UPDATE writer SET writer_name = ?, writer_modified_at = ? WHERE writer_id = (SELECT writer_id FROM schedule WHERE schedule_id = ?)",
+                writerName,
+                LocalDateTime.now(), // 수정된 시간
                 id
         );
     }

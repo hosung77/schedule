@@ -14,8 +14,6 @@ public interface ScheduleRepository {
 
     List<ScheduleAllDto> findByNameOrCreatedAt(ScheduleRequestAllDto sc);
 
-    void updateSchedule(ScheduleEditRequestDto dto, Long id);
-
     Optional<Schedule> findByScheduleId(Long id);
 
     void deleteById(Long id);
@@ -23,5 +21,9 @@ public interface ScheduleRepository {
     Optional<List<SearchedScheduleDto>> findScheduleByID(Long id);
 
     SearchedScheduleDto findById(Long id);
+
+    void updateScheduleTodo(String todo, Long id);
+
+    void updateWriterName(String writerName, Long id);
 
 }

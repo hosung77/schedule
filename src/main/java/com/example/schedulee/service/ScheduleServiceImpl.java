@@ -68,7 +68,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         if (id == null) {
             throw new CustomException(ErrorCode.INVALID_ID);
         }
-
         // 수정 요청을 받은 DTO의 비밀번호와 DB에 저장된 비밀번호를 비교하기 위해,
         // PathVariable로 전달된 id를 사용하여 DB에서 해당 일정 정보를 조회하고 임시 변수에 할당
         Schedule schedule = scheduleRepository.findByScheduleId(id)
@@ -76,7 +75,19 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         // 조건문을 통해 비밀번호 비교 후 같으면 수정 다르면 예외를 발생시킨다.
         if (schedule.getPassword().equals(dto.getPassword())) {
-            scheduleRepository.updateSchedule(dto, id);
+
+
+            // 비밀번호 외 다른 수정 항목을 업데이트하는 부분
+            if (dto.getWriterName() != null) {
+                // 작성자 이름이 null이 아니면 writer 테이블에서 수정
+                scheduleRepository.updateWriterName(dto.getWriterName(), id);
+            }
+            if (dto.getTodo() != null) {
+                // 할 일(todo)이 null이 아니면 schedule 테이블에서 수정
+                scheduleRepository.updateScheduleTodo(dto.getTodo(), id);
+            }
+
+
 
             // 업데이트된 정보를 dto에 담아 반환
             SearchedScheduleDto updatedSchedule = scheduleRepository.findById(id);
