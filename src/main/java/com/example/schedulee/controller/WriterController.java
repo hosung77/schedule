@@ -21,6 +21,7 @@ public class WriterController {
 
 
     @PostMapping
+    // 사용자 등록
     public ResponseEntity<WriterResponseDto> register(
             @Valid @RequestBody WriterRegisterRequestDto dto
     ){
