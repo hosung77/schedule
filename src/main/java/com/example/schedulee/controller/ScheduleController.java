@@ -30,16 +30,13 @@ public class ScheduleController {
         return new ResponseEntity<>(postedSchedule, HttpStatus.CREATED);
     }
 
-    // 사용자 이름 또는 수정일과 일치하는 스케줄 모두 반환
+    // 데이터 베이스에 존재하는 모든 스케줄 조회
     @GetMapping("/all")
-    public ResponseEntity<Paging<ScheduleAllDto>> getAllSchedule(
-            @RequestParam String writerName,
-            @RequestParam LocalDateTime modifiedAt,
+    public ResponseEntity<Paging<AllScheduleDto>> getAllSchedule(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size) {
 
-        ScheduleRequestAllDto requestDto = new ScheduleRequestAllDto(writerName, modifiedAt);
-        Paging<ScheduleAllDto> result = scheduleService.searchAllWithPaging(requestDto, page, size);
+        Paging<AllScheduleDto> result = scheduleService.searchAllWithPaging(page, size);
 
         return ResponseEntity.ok(result);
     }

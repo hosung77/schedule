@@ -55,16 +55,12 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository{
     }
 
     @Override
-    public List<ScheduleAllDto> findByNameOrCreatedAt(ScheduleRequestAllDto sc) {
+    public List<AllScheduleDto> findAllSchedule() {
         return jdbcTemplate.query(
-                "SELECT s.schedule_id, s.todo, s.schedule_date, s.created_at, s.modified_at, w.writer_id, w.writer_name " +
+                "SELECT s.schedule_id, s.todo, w.writer_id, w.writer_name, s.schedule_date " +
                         "FROM schedule s " +
-                        "JOIN writer w ON s.writer_id = w.writer_id " +
-                        "WHERE DATE(s.modified_at) = ? OR w.writer_name = ? " +
-                        "ORDER BY s.modified_at DESC",
-                scheduleAllDtoRowMapper(),
-                sc.getModifiedAt(),
-                sc.getWriterName()
+                        "JOIN writer w ON s.writer_id = w.writer_id ",
+                scheduleAllDtoRowMapper()
         );
     }
 
@@ -140,18 +136,16 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository{
 
 
 
-    private RowMapper<ScheduleAllDto> scheduleAllDtoRowMapper(){
+    private RowMapper<AllScheduleDto> scheduleAllDtoRowMapper(){
 
-        return new RowMapper<ScheduleAllDto>() {
+        return new RowMapper<AllScheduleDto>() {
             @Override
-            public ScheduleAllDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return new ScheduleAllDto(
+            public AllScheduleDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+                return new AllScheduleDto(
                         rs.getLong("schedule_id"),
                         rs.getString("todo"),
                         rs.getString("writer_id"),
                         rs.getString("writer_name"),
-                        rs.getObject("created_at", LocalDateTime.class),
-                        rs.getObject("modified_at", LocalDateTime.class),
                         rs.getObject("schedule_date", LocalDateTime.class)
                 );
             }

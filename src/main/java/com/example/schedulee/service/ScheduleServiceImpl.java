@@ -39,9 +39,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Paging<ScheduleAllDto> searchAllWithPaging(ScheduleRequestAllDto sc, int page, int size) {
+    public Paging<AllScheduleDto> searchAllWithPaging(int page, int size) {
 
-        List<ScheduleAllDto> searchedResult = scheduleRepository.findByNameOrCreatedAt(sc);
+        List<AllScheduleDto> searchedResult = scheduleRepository.findAllSchedule();
 
         // 전체 데이터 개수
         long totalElements = searchedResult.size();
@@ -56,7 +56,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         // fromIndex가 리스트의 크기보다 크면 값을 초과하기 때문에 빈배열을 반환해주고 그게 아니라면
         // fromIndex와 toIndex 사이의 값을 반환해준다.
-        List<ScheduleAllDto> pagedContent = (fromIndex >= searchedResult.size()) ?
+        List<AllScheduleDto> pagedContent = (fromIndex >= searchedResult.size()) ?
                 Collections.emptyList() : searchedResult.subList(fromIndex, toIndex);
 
         // 전체 페이지 개수 계산
