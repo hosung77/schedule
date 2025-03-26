@@ -18,7 +18,7 @@ public class Schedule {
 
     private String todo;
 
-    private String writerId;
+    private Long writerId;
 
     private String password;
 

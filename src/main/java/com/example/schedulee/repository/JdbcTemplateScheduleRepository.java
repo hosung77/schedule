@@ -166,7 +166,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository{
                 return new Schedule(
                         rs.getLong("schedule_id"),
                         rs.getString("todo"),
-                        rs.getString("writer_id"),
+                        rs.getLong("writer_id"),
                         rs.getString("password"),
                         rs.getObject("created_at", LocalDateTime.class),
                         rs.getObject("modified_at", LocalDateTime.class),
@@ -183,7 +183,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository{
                 return new ScheduleResponseDto(
                         rs.getLong("schedule_id"),
                         rs.getString("todo"),
-                        rs.getString("writer_id"),
+                        rs.getLong("writer_id"),
                         rs.getObject("created_at", LocalDateTime.class),
                         rs.getObject("modified_at", LocalDateTime.class),
                         rs.getObject("schedule_date", LocalDateTime.class)
