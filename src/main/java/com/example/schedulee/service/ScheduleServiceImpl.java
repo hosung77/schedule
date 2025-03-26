@@ -6,13 +6,12 @@ import com.example.schedulee.exception.CustomException;
 import com.example.schedulee.exception.ErrorCode;
 import com.example.schedulee.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -86,8 +85,6 @@ public class ScheduleServiceImpl implements ScheduleService {
                 // 할 일(todo)이 null이 아니면 schedule 테이블에서 수정
                 scheduleRepository.updateScheduleTodo(dto.getTodo(), scheduleId);
             }
-
-
 
             // 업데이트된 정보를 dto에 담아 반환
             SearchedScheduleDto updatedSchedule = scheduleRepository.findById(scheduleId);
