@@ -16,7 +16,7 @@ https://glen-equinox-8f3.notion.site/api-1bd32abd85998048a61fff395cd81cda?pvs=4
 
 🌈 sql
 
-[UploaCREATE DATABASE schedule;
+CREATE DATABASE schedule;
 USE schedule;
 
 CREATE TABLE writer (
@@ -42,7 +42,7 @@ CREATE TABLE schedule (
         REFERENCES writer(writer_id)
         ON DELETE SET NULL
         ON UPDATE CASCADE
-);ding schedule.sql…]()
+);
 
 
 ***
