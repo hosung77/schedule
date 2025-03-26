@@ -34,7 +34,7 @@ https://github.com/hosung77/schedule
 
 - gitflow 방식 적용
 
-브랜치는 main, dev, feature/로 나누어 관리하였으며, 기능 개발은 feature 브랜치에서 진행한 후,
+브랜치는 main, dev, feature/로 나누어 관리하였으며, 기능 개발은 feature 브랜치, 주석을 추가 및 수정은 chore 브랜치, 긴급 수정은 fix 브랜치에서 진행한 후,
 기능 단위로 dev 브랜치에 Pull Request를 통해 병합하였다. 전체 기능 개발이 완료되면, dev 브랜치를 main에 병합하여 최종 코드를 반영하였다.
 
 ## 4️⃣ 브랜치 개발 순서 🔨
