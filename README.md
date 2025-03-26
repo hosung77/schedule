@@ -70,7 +70,7 @@ https://github.com/hosung77/schedule
 
 ## 4️⃣ 브랜치 개발 순서 🔨
 
-feature/nec_1 -> feature/nec_2 -> feature/chall_lv3 ->  feature/chall_lv4 ->  feature/chall_lv5 ->  feature/chall_lv6 -> chore/update-comments -> chore/update-comments-v2 -> fix/chall_lv3-missing-implementation -> fix/delete-controller-parameter
+feature/nec_1 -> feature/nec_2 -> feature/chall_lv3 ->  feature/chall_lv4 ->  feature/chall_lv5 ->  feature/chall_lv6 -> chore/update-comments -> chore/update-comments-v2 -> fix/chall_lv3-missing-implementation -> fix/delete-controller-parameter -> chore/update-comments-v3
 
 ## 5️⃣ 주요 기능 ⚙️
 
@@ -82,7 +82,7 @@ feature/nec_1 -> feature/nec_2 -> feature/chall_lv3 ->  feature/chall_lv4 ->  fe
 
 일정 및 일정 시간 등을 가지고 일정을 등록할 수 있다.
 
-### ✅ **특정 일정 불러오기**
+### ✅ **이름 및 수정일과 일치하는 일정 불러오기**
 
 전달받은 작성자 이름 또는 수정일을 가지고 일치하는 일정 전체 조회를 할 수 있다.
 
