@@ -80,7 +80,7 @@ feature/nec_1 -> feature/nec_2 -> feature/chall_lv3 ->  feature/chall_lv4 ->  fe
 
 ### ✅ **일정 등록**
 
-일정 및 일정 시간등을 가지고 일정을 등록할 수 있다.
+일정 및 일정 시간 등을 가지고 일정을 등록할 수 있다.
 
 ### ✅ **특정 일정 불러오기**
 
