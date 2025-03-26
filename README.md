@@ -12,11 +12,11 @@
 
 🌈 API 명세서
 
-링크 1) 
-https://glen-equinox-8f3.notion.site/api-1bd32abd85998048a61fff395cd81cda?pvs=4
+링크 1) ❗️ 접속 안될시에 링크 2 접속!
+https://www.notion.so/api-1bd32abd85998048a61fff395cd81cda?pvs=4
 
 링크 2)
-https://www.notion.so/api-1bd32abd85998048a61fff395cd81cda?pvs=4
+https://glen-equinox-8f3.notion.site/api-1bd32abd85998048a61fff395cd81cda?pvs=4
 
 🌈 sql
 
