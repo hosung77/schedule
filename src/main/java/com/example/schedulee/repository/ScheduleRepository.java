@@ -18,7 +18,7 @@ public interface ScheduleRepository {
 
     void deleteById(Long id);
 
-    Optional<List<SearchedScheduleDto>> findScheduleByID(Long id);
+    Optional<List<SearchedScheduleDto>> findScheduleByWriterID(Long id);
 
     SearchedScheduleDto findById(Long id);
 

@@ -64,13 +64,13 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 
     @Override
-    public SearchedScheduleDto editInfo(ScheduleEditRequestDto dto, Long id) {
-        if (id == null) {
+    public SearchedScheduleDto editInfo(ScheduleEditRequestDto dto, Long scheduleId) {
+        if (scheduleId == null) {
             throw new CustomException(ErrorCode.INVALID_ID);
         }
         // 수정 요청을 받은 DTO의 비밀번호와 DB에 저장된 비밀번호를 비교하기 위해,
         // PathVariable로 전달된 id를 사용하여 DB에서 해당 일정 정보를 조회하고 임시 변수에 할당
-        Schedule schedule = scheduleRepository.findByScheduleId(id)
+        Schedule schedule = scheduleRepository.findByScheduleId(scheduleId)
                 .orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
 
         // 조건문을 통해 비밀번호 비교 후 같으면 수정 다르면 예외를 발생시킨다.
@@ -80,17 +80,17 @@ public class ScheduleServiceImpl implements ScheduleService {
             // 비밀번호 외 다른 수정 항목을 업데이트하는 부분
             if (dto.getWriterName() != null) {
                 // 작성자 이름이 null이 아니면 writer 테이블에서 수정
-                scheduleRepository.updateWriterName(dto.getWriterName(), id);
+                scheduleRepository.updateWriterName(dto.getWriterName(), scheduleId);
             }
             if (dto.getTodo() != null) {
                 // 할 일(todo)이 null이 아니면 schedule 테이블에서 수정
-                scheduleRepository.updateScheduleTodo(dto.getTodo(), id);
+                scheduleRepository.updateScheduleTodo(dto.getTodo(), scheduleId);
             }
 
 
 
             // 업데이트된 정보를 dto에 담아 반환
-            SearchedScheduleDto updatedSchedule = scheduleRepository.findById(id);
+            SearchedScheduleDto updatedSchedule = scheduleRepository.findById(scheduleId);
 
             return updatedSchedule;
         } else {
@@ -119,8 +119,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<SearchedScheduleDto> searchSchedule(Long id) {
-        List<SearchedScheduleDto> result = scheduleRepository.findScheduleByID(id)
+    public List<SearchedScheduleDto> searchSchedule(Long writerId) {
+        List<SearchedScheduleDto> result = scheduleRepository.findScheduleByWriterID(writerId)
                 .orElseThrow(()->new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
         return result;
     }

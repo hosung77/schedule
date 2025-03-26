@@ -111,7 +111,7 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository{
     }
 
     @Override
-    public Optional<List<SearchedScheduleDto>> findScheduleByID(Long id) {
+    public Optional<List<SearchedScheduleDto>> findScheduleByWriterID(Long id) {
         List<SearchedScheduleDto> result = jdbcTemplate.query(
                 "SELECT s.schedule_id, w.writer_id, w.writer_name, w.writer_email, " +
                         "s.todo, s.schedule_date, s.created_at, s.modified_at " +

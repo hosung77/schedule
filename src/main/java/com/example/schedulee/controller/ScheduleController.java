@@ -45,21 +45,21 @@ public class ScheduleController {
     }
 
     // 일정의 아이디와 일치하는 컬럼을 반환
-    @GetMapping("/{id}")
+    @GetMapping("/{writerId}")
     public ResponseEntity<List<SearchedScheduleDto>> searchSchedule(
-            @PathVariable Long id
+            @PathVariable Long writerId
     ){
-        System.out.println("Received ID: " + id);  // ID 값이 제대로 전달 되는지 확인
-        List<SearchedScheduleDto> dto = scheduleService.searchSchedule(id);
+        System.out.println("Received ID: " + writerId);  // ID 값이 제대로 전달 되는지 확인
+        List<SearchedScheduleDto> dto = scheduleService.searchSchedule(writerId);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     // 스케줄 수정
-    @PatchMapping("/{id}")
+    @PatchMapping("/{scheduleId}")
     public ResponseEntity<SearchedScheduleDto> editInfo(@Valid @RequestBody ScheduleEditRequestDto dto,
-    @PathVariable Long id){
+    @PathVariable Long scheduleId){
 
-        SearchedScheduleDto editedSchedule = scheduleService.editInfo(dto,id);
+        SearchedScheduleDto editedSchedule = scheduleService.editInfo(dto,scheduleId);
         return new ResponseEntity<>(editedSchedule, HttpStatus.OK);
     }
 
