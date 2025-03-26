@@ -1,6 +1,7 @@
 package com.example.schedulee.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -18,8 +19,8 @@ public class ScheduleRequestDto {
     @Size(max = 200, message = "할일은 200자 이내로 입력해주세요.")
     private String todo;
 
-    @NotBlank(message = "작성자 아이디는 필수로 입력해 주셔야 합니다.")
-    private String writerId;
+    @NotNull(message = "작성자 아이디는 필수로 입력해 주셔야 합니다.")
+    private long writerId;
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
@@ -29,5 +30,6 @@ public class ScheduleRequestDto {
     @Pattern(regexp = ".*[!@#$%^&*(),.?\\\":{}|<>].*", message = "비밀번호는 특수문자를 하나 이상 포함해야 합니다.")
     private String password;
 
+    @NotNull(message = "일정 날짜는 필수로 입력해 주셔야 합니다.")
     private LocalDateTime scheduleDate;
 }

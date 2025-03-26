@@ -8,4 +8,8 @@ import java.util.List;
 public interface WriterRepository {
 
     WriterResponseDto saveWriter(Writer writer);
+
+    Boolean findByWriterId(Long id);
+
+    Boolean findByName(String name);
 }

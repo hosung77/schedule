@@ -40,6 +40,26 @@ public class JdbcTemplateWriterRepository implements WriterRepository {
         );
     }
 
+    @Override
+    public Boolean findByWriterId(Long id) {
+        String sql = "SELECT COUNT(*) FROM writer WHERE writer_id = ?";  // users 테이블에서 id가 일치하는 행을 조회
+
+        // COUNT(*)가 1 이상이면 존재한다는 의미
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, id);
+
+        return count != null && count > 0;  // count가 1 이상이면 존재, 아니면 존재하지 않음
+    }
+
+    @Override
+    public Boolean findByName(String name) {
+        String sql = "SELECT COUNT(*) FROM writer WHERE writer_name = ?";  // users 테이블에서 id가 일치하는 행을 조회
+
+        // COUNT(*)가 1 이상이면 존재한다는 의미
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, name);
+
+        return count != null && count > 0;  // count가 1 이상이면 존재, 아니면 존재하지 않음
+    }
+
 
 }
 

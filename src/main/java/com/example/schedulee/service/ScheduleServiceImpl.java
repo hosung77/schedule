@@ -5,6 +5,7 @@ import com.example.schedulee.entitty.Schedule;
 import com.example.schedulee.exception.CustomException;
 import com.example.schedulee.exception.ErrorCode;
 import com.example.schedulee.repository.ScheduleRepository;
+import com.example.schedulee.repository.WriterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +19,19 @@ import java.util.List;
 public class ScheduleServiceImpl implements ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final WriterRepository writerRepository;
 
     @Override
     public ScheduleResponseDto postSchedule(ScheduleRequestDto dto) {
         if (dto.getCreatedAt() == null && dto.getModifiedAt() == null) {
             dto.setCreatedAt(LocalDateTime.now());
             dto.setModifiedAt(LocalDateTime.now());
+        }
+
+        boolean idIsValid = writerRepository.findByWriterId(dto.getWriterId());
+
+        if (idIsValid != true){
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
 
         Schedule sc = new Schedule(null, dto.getTodo(),dto.getWriterId(),dto.getPassword(),dto.getScheduleDate(),dto.getCreatedAt(),dto.getModifiedAt());
@@ -74,7 +82,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         // 조건문을 통해 비밀번호 비교 후 같으면 수정 다르면 예외를 발생시킨다.
         if (schedule.getPassword().equals(dto.getPassword())) {
-
 
             // 비밀번호 외 다른 수정 항목을 업데이트하는 부분
             if (dto.getWriterName() != null) {

@@ -2,6 +2,7 @@ package com.example.schedulee.dto;
 
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ScheduleDeleteRequestDto {
-    @NotBlank(message = "스케줄 아이디는 필수로 입력해 주셔야 합니다.")
+    @NotNull(message = "스케줄 아이디는 필수로 입력해 주셔야 합니다.")
     private Long id;
 
     @NotBlank(message = "비밀번호는 필수로 입력해 주셔야 합니다.")
