@@ -70,7 +70,7 @@ https://github.com/hosung77/schedule
 
 ## 4️⃣ 브랜치 개발 순서 🔨
 
-feature/nec_1 -> feature/nec_2 -> feature/chall_lv3 ->  feature/chall_lv4 ->  feature/chall_lv5 ->  feature/chall_lv6 -> chore/update-comments -> chore/update-comments-v2 -> fix/chall_lv3-missing-implementation
+feature/nec_1 -> feature/nec_2 -> feature/chall_lv3 ->  feature/chall_lv4 ->  feature/chall_lv5 ->  feature/chall_lv6 -> chore/update-comments -> chore/update-comments-v2 -> fix/chall_lv3-missing-implementation -> fix/delete-controller-parameter
 
 ## 5️⃣ 주요 기능 ⚙️
 
