@@ -9,7 +9,7 @@ public interface ScheduleService {
 
     ScheduleResponseDto postSchedule(ScheduleRequestDto dto);
 
-    Paging<ScheduleAllDto> searchAllWithPaging(ScheduleRequestAllDto sc, int page, int size);
+    Paging<AllScheduleDto> searchAllWithPaging(int page, int size);
 
     SearchedScheduleDto editInfo(ScheduleEditRequestDto dto, Long id);
 
