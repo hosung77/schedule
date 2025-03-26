@@ -104,18 +104,18 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public void deleteSchedule(ScheduleDeleteRequestDto dto) {
-        if (dto.getId() == null) {
+    public void deleteSchedule(ScheduleDeleteRequestDto dto, Long scheduleId) {
+        if (scheduleId == null) {
             throw new CustomException(ErrorCode.INVALID_ID);
         }
         // 삭제 요청을 받은 DTO의 비밀번호와 DB에 저장된 비밀번호를 비교하기 위해,
         // PathVariable로 전달된 Dto에 id를 사용하여 DB에서 해당 일정 정보를 조회하고 임시 변수에 할당
-        Schedule schedule = scheduleRepository.findByScheduleId(dto.getId())
+        Schedule schedule = scheduleRepository.findByScheduleId(scheduleId)
                 .orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
 
         // 조건문을 통해 비밀번호 비교 후 같으면 수정 다르면 예외를 발생시킨다.
         if (schedule.getPassword().equals(dto.getPassword())) {
-            scheduleRepository.deleteById(dto.getId());
+            scheduleRepository.deleteById(scheduleId);
         } else {
             // 비밀번호가 다르면 사용자에게 알림 처리
             throw new CustomException(ErrorCode.PASSWORD_NOT_MATCH);

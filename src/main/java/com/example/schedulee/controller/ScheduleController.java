@@ -64,10 +64,11 @@ public class ScheduleController {
     }
 
     // 스케줄 삭제
-    @DeleteMapping()
-    public ResponseEntity<String> deleteSchedule(@Valid @RequestBody ScheduleDeleteRequestDto dto){
+    @DeleteMapping("/{scheduleId}")
+    public ResponseEntity<String> deleteSchedule(@Valid @RequestBody ScheduleDeleteRequestDto dto,
+                                                 @PathVariable Long scheduleId){
 
-        scheduleService.deleteSchedule(dto);
+        scheduleService.deleteSchedule(dto, scheduleId);
 
         return ResponseEntity.ok("선택한 스케줄이 삭제되었습니다.");
     }
