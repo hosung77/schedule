@@ -21,7 +21,7 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     // 상품 등록
-    @PostMapping // 상품 등록 컨트롤러
+    @PostMapping // 일정 등록 컨트롤러
     public ResponseEntity<ScheduleResponseDto> postingSchedule(
             @Valid @RequestBody ScheduleRequestDto dto
             ){
@@ -30,7 +30,7 @@ public class ScheduleController {
         return new ResponseEntity<>(postedSchedule, HttpStatus.CREATED);
     }
 
-    // 수정일과 작성자가 일치하는 스케줄 응답
+    // 사용자 아이디와 일치하는 컬럼을 모두 반환
     @GetMapping("/all")
     public ResponseEntity<Paging<ScheduleAllDto>> getAllSchedule(
             @RequestParam String writerName,
@@ -44,6 +44,7 @@ public class ScheduleController {
         return ResponseEntity.ok(result);
     }
 
+    // 일정의 아이디와 일치하는 컬럼을 반환
     @GetMapping("/{id}")
     public ResponseEntity<List<SearchedScheduleDto>> searchSchedule(
             @PathVariable Long id
