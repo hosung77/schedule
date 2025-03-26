@@ -1,21 +1,14 @@
 package com.example.schedulee.repository;
 
-
-import com.example.schedulee.dto.SearchedScheduleDto;
 import com.example.schedulee.dto.WriterResponseDto;
 import com.example.schedulee.entitty.Writer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Repository

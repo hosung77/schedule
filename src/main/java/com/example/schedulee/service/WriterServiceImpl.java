@@ -1,6 +1,6 @@
 package com.example.schedulee.service;
 
-import com.example.schedulee.dto.SearchedScheduleDto;
+
 import com.example.schedulee.dto.WriterRegisterRequestDto;
 import com.example.schedulee.dto.WriterResponseDto;
 import com.example.schedulee.entitty.Writer;
@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor

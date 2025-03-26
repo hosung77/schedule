@@ -44,7 +44,7 @@ public class ScheduleController {
         return ResponseEntity.ok(result);
     }
 
-    // 일정의 아이디와 일치하는 컬럼을 반환
+    // 사용자 아이디와 일치하는 컬럼들을 반환
     @GetMapping("/{writerId}")
     public ResponseEntity<List<SearchedScheduleDto>> searchSchedule(
             @PathVariable Long writerId
