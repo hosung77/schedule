@@ -14,6 +14,37 @@
 
 https://glen-equinox-8f3.notion.site/api-1bd32abd85998048a61fff395cd81cda?pvs=4
 
+🌈 sql
+
+[UploaCREATE DATABASE schedule;
+USE schedule;
+
+CREATE TABLE writer (
+    writer_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    writer_email VARCHAR(255) NOT NULL,
+    writer_name VARCHAR(100) NOT NULL,
+    writer_created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    writer_modified_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT unique_writer_name UNIQUE (writer_name) 
+);
+
+CREATE TABLE schedule (
+    schedule_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    todo VARCHAR(255) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    writer_id BIGINT,
+    schedule_date DATETIME,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    modified_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    CONSTRAINT fk_writer
+        FOREIGN KEY (writer_id)
+        REFERENCES writer(writer_id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+);ding schedule.sql…]()
+
+
 ***
 
 ## 2️⃣ 실행 방법 🔨 
