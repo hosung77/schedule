@@ -13,7 +13,7 @@ public interface ScheduleService {
 
     SearchedScheduleDto editInfo(ScheduleEditRequestDto dto, Long id);
 
-    void deleteSchedule(ScheduleDeleteRequestDto dto);
+    void deleteSchedule(ScheduleDeleteRequestDto dto, Long scheduleId);
 
     List<SearchedScheduleDto> searchSchedule(Long id);
 }
