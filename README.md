@@ -2,9 +2,9 @@
 
 ***
 
-## 1️⃣ 프로젝트 개요
+## 1️⃣ 프로젝트 개요 📋
 
-이 프로젝트는 일정을 관리하는 프로그램으로 구현한 것이다.
+일정관리 프로그램
 
 🌈 ERD
 
@@ -12,13 +12,11 @@
 
 🌈 API 명세서
 
-
-
-
+https://glen-equinox-8f3.notion.site/api-1bd32abd85998048a61fff395cd81cda?pvs=4
 
 ***
 
-## 2️⃣ 실행 방법  🔨
+## 2️⃣ 실행 방법 🔨 
 
 1. 필요한 환경 구성하기
 
@@ -32,18 +30,18 @@ https://github.com/hosung77/schedule
 3. Main에서 실행
 
 ***
-## 3️⃣ Git 전략
+## 3️⃣ Git 전략 ⚡️ 
 
 - gitflow 방식 적용
 
 브랜치는 main, dev, feature/로 나누어 관리하였으며, 기능 개발은 feature 브랜치에서 진행한 후,
 기능 단위로 dev 브랜치에 Pull Request를 통해 병합하였다. 전체 기능 개발이 완료되면, dev 브랜치를 main에 병합하여 최종 코드를 반영하였다.
 
-## 4️⃣ 브랜치 개발 순서
+## 4️⃣ 브랜치 개발 순서 🔨
 
-feature/nec_1 -> feature/nec_2 -> feature/chall_lv3 ->  feature/chall_lv4 ->  feature/chall_lv5 ->  feature/chall_lv6
+feature/nec_1 -> feature/nec_2 -> feature/chall_lv3 ->  feature/chall_lv4 ->  feature/chall_lv5 ->  feature/chall_lv6 -> chore/update-comments -> chore/update-comments-v2 -> fix/chall_lv3-missing-implementation
 
-## 5️⃣ 주요 기능
+## 5️⃣ 주요 기능 ⚙️
 
 ### ✅ **사용자 등록**
 
