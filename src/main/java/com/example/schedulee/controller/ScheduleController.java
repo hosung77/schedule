@@ -30,7 +30,7 @@ public class ScheduleController {
         return new ResponseEntity<>(postedSchedule, HttpStatus.CREATED);
     }
 
-    // 사용자 아이디와 일치하는 컬럼을 모두 반환
+    // 사용자 이름 또는 수정일과 일치하는 스케줄 모두 반환
     @GetMapping("/all")
     public ResponseEntity<Paging<ScheduleAllDto>> getAllSchedule(
             @RequestParam String writerName,
